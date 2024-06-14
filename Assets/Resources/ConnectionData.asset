@@ -16,3 +16,5 @@ MonoBehaviour:
   Username: geo_3d
   Password: lWq0BSXJs9wu
   Database: test_db
+  Port: 5432
+  SSLmode: 3

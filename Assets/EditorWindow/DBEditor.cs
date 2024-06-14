@@ -11,6 +11,7 @@ public class DBEditor : EditorWindow
     private bool _postgis;
     private bool _postgisRaster;
     private bool _postgisSfcgal;
+    private string[] sslModes = new string[] { "Disable", "Allow", "Prefer", "Require", "Verify-ca", "Verify-full" };
 
     [MenuItem("Tools/DB Connection")]
     public static void ShowDBEditor()
@@ -35,24 +36,26 @@ public class DBEditor : EditorWindow
 
     public string GetConnectionString()
     {
-        if (_dbEditor.Host == "" || _dbEditor.Username == "" || _dbEditor.Password == "" ||
-            _dbEditor.Database == "")
+        if (string.IsNullOrEmpty(_dbEditor.Host) || string.IsNullOrEmpty(_dbEditor.Username) || string.IsNullOrEmpty(_dbEditor.Password) ||
+            string.IsNullOrEmpty(_dbEditor.Database))
         {
-            throw new InvalidDataException("Database connection field are not set up");
+            throw new InvalidDataException("Database connection fields are not set up");
         }
 
-        return $"Host={_dbEditor.Host}; Username={_dbEditor.Username}; Password={_dbEditor.Password}; Database={_dbEditor.Database}";
+        return $"Host={_dbEditor.Host};Username={_dbEditor.Username};Password={_dbEditor.Password};Database={_dbEditor.Database};SSL Mode={sslModes[_dbEditor.SSLmode]}";
     }
 
     private void OnGUI()
     {
         GUILayout.Label("Database connection");
         _dbEditor.Host = EditorGUILayout.TextField("Host", _dbEditor.Host);
+        _dbEditor.Port = EditorGUILayout.IntField("Port", _dbEditor.Port); // Add port field
         _dbEditor.Username = EditorGUILayout.TextField("Username", _dbEditor.Username);
-        _dbEditor.Password = EditorGUILayout.TextField("Password", _dbEditor.Password);
+        _dbEditor.Password = EditorGUILayout.PasswordField("Password", _dbEditor.Password);
         _dbEditor.Database = EditorGUILayout.TextField("Database", _dbEditor.Database);
-        var connectionString = $"Host={_dbEditor.Host}; Username={_dbEditor.Username}; " +
-    $"Password={_dbEditor.Password}; Database={_dbEditor.Database};SSL Mode=Require";
+        _dbEditor.SSLmode = EditorGUILayout.Popup("SSL mode", _dbEditor.SSLmode, sslModes);
+
+        var connectionString = GetConnectionString();
 
         GUILayout.Space(10);
 
@@ -66,7 +69,7 @@ public class DBEditor : EditorWindow
         if (GUILayout.Button("Test Connection", GUILayout.ExpandWidth(false))) // Prevent button from expanding
         {
             var isConnected = DbCommonFunctions.CheckConnection(connectionString);
-            if(isConnected) 
+            if (isConnected)
             {
                 Debug.Log("Connection successful");
             }
