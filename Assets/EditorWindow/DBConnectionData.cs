@@ -1,3 +1,4 @@
+using Npgsql;
 using System;
 using System.IO;
 using UnityEngine;
@@ -18,6 +19,6 @@ public class DBConnectionData : ScriptableObject
             throw new InvalidDataException("Database connection field are not set up correctly");
         }
 
-        return $"Host={Host}; Username={Username}; Password={Password}; Database={Database}";
+        return $"Host={Host}; Username={Username}; Password={Password}; Database={Database}; SSL Mode=Require";
     }
 }

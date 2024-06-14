@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65aeff060cd5c354fb39d25579e74fe3, type: 3}
   m_Name: ConnectionData
   m_EditorClassIdentifier: 
-  Host: localhost
-  Username: postgres
-  Password: mue2023
-  Database: postgres
+  Host: ep-silent-mouse-a2qvzmc7.eu-central-1.aws.neon.tech
+  Username: geo_3d
+  Password: lWq0BSXJs9wu
+  Database: test_db

@@ -52,7 +52,7 @@ public class DBEditor : EditorWindow
         _dbEditor.Password = EditorGUILayout.TextField("Password", _dbEditor.Password);
         _dbEditor.Database = EditorGUILayout.TextField("Database", _dbEditor.Database);
         var connectionString = $"Host={_dbEditor.Host}; Username={_dbEditor.Username}; " +
-    $"Password={_dbEditor.Password}; Database={_dbEditor.Database}";
+    $"Password={_dbEditor.Password}; Database={_dbEditor.Database};SSL Mode=Require";
 
         GUILayout.Space(10);
 
